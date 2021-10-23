@@ -6,7 +6,7 @@
 #
 # The only valid versions are "v1beta1", "v1".
 # This key is required.
-version: v1
+version: v1beta1
 
 # name is the module name.
 #name: buf.build/acme/weather
@@ -43,7 +43,6 @@ build:
 
 # lint contains the options for lint rules.
 lint:
-
   # use is the list of rule categories and ids to use for buf lint.
   #
   # Categories are sets of rule ids.
@@ -146,7 +145,6 @@ lint:
 
 # breaking contains the options for breaking rules.
 breaking:
-
   # use is the list of rule categories and ids to use for
   # buf breaking.
   #

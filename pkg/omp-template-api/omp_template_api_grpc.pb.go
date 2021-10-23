@@ -99,5 +99,5 @@ var OmpTemplateApiService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "ozonmp/omp_template_api/v1/omp_template_api.proto",
+	Metadata: "api/omp_template_api/omp_template_api.proto",
 }

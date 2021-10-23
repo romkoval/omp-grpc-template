@@ -22,12 +22,10 @@ import (
 	grpcrecovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
-	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 
-	"github.com/ozonmp/omp-template-api/internal/api"
+	api "github.com/ozonmp/omp-template-api/internal/app/omp_template_api"
 	"github.com/ozonmp/omp-template-api/internal/config"
-	"github.com/ozonmp/omp-template-api/internal/repo"
-	pb "github.com/ozonmp/omp-template-api/pkg/omp-template-api"
+	desc "github.com/ozonmp/omp-template-api/pkg/omp-template-api"
 )
 
 type GrpcServer struct {
@@ -35,11 +33,8 @@ type GrpcServer struct {
 	batchSize uint
 }
 
-func NewGrpcServer(db *sqlx.DB, batchSize uint) *GrpcServer {
-	return &GrpcServer{
-		db:        db,
-		batchSize: batchSize,
-	}
+func NewGrpcServer() *GrpcServer {
+	return &GrpcServer{}
 }
 
 func (s *GrpcServer) Start(cfg *config.Config) error {
@@ -48,7 +43,6 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 
 	gatewayAddr := fmt.Sprintf("%s:%v", cfg.Rest.Host, cfg.Rest.Port)
 	grpcAddr := fmt.Sprintf("%s:%v", cfg.Grpc.Host, cfg.Grpc.Port)
-	metricsAddr := fmt.Sprintf("%s:%v", cfg.Metrics.Host, cfg.Metrics.Port)
 
 	gatewayServer := createGatewayServer(grpcAddr, gatewayAddr)
 
@@ -56,16 +50,6 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 		log.Info().Msgf("Gateway server is running on %s", gatewayAddr)
 		if err := gatewayServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Error().Err(err).Msg("Failed running gateway server")
-			cancel()
-		}
-	}()
-
-	metricsServer := createMetricsServer(cfg)
-
-	go func() {
-		log.Info().Msgf("Metrics server is running on %s", metricsAddr)
-		if err := metricsServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			log.Error().Err(err).Msg("Failed running metrics server")
 			cancel()
 		}
 	}()
@@ -98,17 +82,12 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 		}),
 		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
 			grpc_ctxtags.UnaryServerInterceptor(),
-			grpc_prometheus.UnaryServerInterceptor,
 			grpc_opentracing.UnaryServerInterceptor(),
 			grpcrecovery.UnaryServerInterceptor(),
 		)),
 	)
 
-	r := repo.NewRepo(s.db, s.batchSize)
-
-	pb.RegisterOmpTemplateApiServiceServer(grpcServer, api.NewTemplateAPI(r))
-	grpc_prometheus.EnableHandlingTimeHistogram()
-	grpc_prometheus.Register(grpcServer)
+	desc.RegisterOmpTemplateApiServiceServer(grpcServer, api.NewTemplateAPI())
 
 	go func() {
 		log.Info().Msgf("GRPC Server is listening on: %s", grpcAddr)
@@ -149,12 +128,6 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 		log.Error().Err(err).Msg("statusServer.Shutdown")
 	} else {
 		log.Info().Msg("statusServer shut down correctly")
-	}
-
-	if err := metricsServer.Shutdown(ctx); err != nil {
-		log.Error().Err(err).Msg("metricsServer.Shutdown")
-	} else {
-		log.Info().Msg("metricsServer shut down correctly")
 	}
 
 	grpcServer.GracefulStop()
