@@ -46,20 +46,11 @@ type Project struct {
 	CommitHash  string
 }
 
-type Status struct {
-	Port          int    `yaml:"port"`
-	Host          string `yaml:"host"`
-	VersionPath   string `yaml:"versionPath"`
-	LivenessPath  string `yaml:"livenessPath"`
-	ReadinessPath string `yaml:"readinessPath"`
-}
-
 // Config - contains all configuration parameters in config package.
 type Config struct {
 	Project Project `yaml:"project"`
 	Grpc    Grpc    `yaml:"grpc"`
 	Rest    Rest    `yaml:"rest"`
-	Status  Status  `yaml:"status"`
 }
 
 // ReadConfigYML - read configurations from file and init instance Config.

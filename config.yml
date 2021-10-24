@@ -13,10 +13,3 @@ grpc:
 rest:
   host: 0.0.0.0
   port: 8081
-
-status:
-  host: 0.0.0.0
-  port: 8000
-  livenessPath: /live
-  readinessPath: /ready
-  versionPath: /version

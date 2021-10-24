@@ -8,11 +8,9 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"sync/atomic"
 	"syscall"
 	"time"
 
-	"github.com/jmoiron/sqlx"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"
@@ -29,8 +27,6 @@ import (
 )
 
 type GrpcServer struct {
-	db        *sqlx.DB
-	batchSize uint
 }
 
 func NewGrpcServer() *GrpcServer {
@@ -51,19 +47,6 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 		if err := gatewayServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Error().Err(err).Msg("Failed running gateway server")
 			cancel()
-		}
-	}()
-
-	isReady := &atomic.Value{}
-	isReady.Store(false)
-
-	statusServer := createStatusServer(cfg, isReady)
-
-	go func() {
-		statusAdrr := fmt.Sprintf("%s:%v", cfg.Status.Host, cfg.Status.Port)
-		log.Info().Msgf("Status server is running on %s", statusAdrr)
-		if err := statusServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			log.Error().Err(err).Msg("Failed running status server")
 		}
 	}()
 
@@ -96,12 +79,6 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 		}
 	}()
 
-	go func() {
-		time.Sleep(2 * time.Second)
-		isReady.Store(true)
-		log.Info().Msg("The service is ready to accept requests")
-	}()
-
 	if cfg.Project.Debug {
 		reflection.Register(grpcServer)
 	}
@@ -116,18 +93,10 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 		log.Info().Msgf("ctx.Done: %v", done)
 	}
 
-	isReady.Store(false)
-
 	if err := gatewayServer.Shutdown(ctx); err != nil {
 		log.Error().Err(err).Msg("gatewayServer.Shutdown")
 	} else {
 		log.Info().Msg("gatewayServer shut down correctly")
-	}
-
-	if err := statusServer.Shutdown(ctx); err != nil {
-		log.Error().Err(err).Msg("statusServer.Shutdown")
-	} else {
-		log.Info().Msg("statusServer shut down correctly")
 	}
 
 	grpcServer.GracefulStop()
