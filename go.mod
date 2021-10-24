@@ -1,4 +1,4 @@
-module github.com/ozonmp/omp-template-api
+module github.com/ozonmp/omp-grpc-template
 
 go 1.16
 

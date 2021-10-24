@@ -11,7 +11,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 
-	desc "github.com/ozonmp/omp-template-api/pkg/omp-template-api"
+	desc "github.com/ozonmp/omp-grpc-template/pkg/omp-template-api"
 )
 
 func createGatewayServer(grpcAddr, gatewayAddr string) *http.Server {

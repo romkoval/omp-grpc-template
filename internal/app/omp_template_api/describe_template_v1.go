@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	desc "github.com/ozonmp/omp-template-api/pkg/omp-template-api"
+	desc "github.com/ozonmp/omp-grpc-template/pkg/omp-template-api"
 )
 
 func (i *Implementation) DescribeTemplateV1(

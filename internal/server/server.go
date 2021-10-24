@@ -23,9 +23,9 @@ import (
 	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 
-	api "github.com/ozonmp/omp-template-api/internal/app/omp_template_api"
-	"github.com/ozonmp/omp-template-api/internal/config"
-	desc "github.com/ozonmp/omp-template-api/pkg/omp-template-api"
+	api "github.com/ozonmp/omp-grpc-template/internal/app/omp_template_api"
+	"github.com/ozonmp/omp-grpc-template/internal/config"
+	desc "github.com/ozonmp/omp-grpc-template/pkg/omp-template-api"
 )
 
 type GrpcServer struct {
