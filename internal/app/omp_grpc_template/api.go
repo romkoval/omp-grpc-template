@@ -8,6 +8,6 @@ type Implementation struct {
 	desc.UnimplementedOmpGrpcTemplateServiceServer
 }
 
-func NewTemplateAPI() desc.OmpGrpcTemplateServiceServer {
+func NewOmpGrpcTemplateService() desc.OmpGrpcTemplateServiceServer {
 	return &Implementation{}
 }

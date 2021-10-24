@@ -87,7 +87,7 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 		)),
 	)
 
-	desc.RegisterOmpGrpcTemplateServiceServer(grpcServer, api.NewTemplateAPI())
+	desc.RegisterOmpGrpcTemplateServiceServer(grpcServer, api.NewOmpGrpcTemplateService())
 
 	go func() {
 		log.Info().Msgf("GRPC Server is listening on: %s", grpcAddr)
