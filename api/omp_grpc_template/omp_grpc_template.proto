@@ -10,7 +10,7 @@ option go_package = "github.com/ozonmp/omp-grpc-template/pkg/omp-grpc-template;o
 // OmpGrpcTemplateService - Service for working with templates
 service OmpGrpcTemplateService {
   // DescribeTemplateV1 - Describe a template
-  rpc DescribeTemplateV1(DescribeTemplateV1Request) returns (DescribeTemplateV1Response) {
+  rpc DescribeTemplateV1 (DescribeTemplateV1Request) returns (DescribeTemplateV1Response) {
     option (google.api.http) = {
       post: "/v1/templates"
       body: "*"
