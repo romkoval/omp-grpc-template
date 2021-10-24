@@ -23,9 +23,9 @@ import (
 	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 
-	api "github.com/ozonmp/omp-grpc-template/internal/app/omp_template_api"
+	api "github.com/ozonmp/omp-grpc-template/internal/app/omp_grpc_template"
 	"github.com/ozonmp/omp-grpc-template/internal/config"
-	desc "github.com/ozonmp/omp-grpc-template/pkg/omp-template-api"
+	desc "github.com/ozonmp/omp-grpc-template/pkg/omp-grpc-template"
 )
 
 type GrpcServer struct {
@@ -87,7 +87,7 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 		)),
 	)
 
-	desc.RegisterOmpTemplateApiServiceServer(grpcServer, api.NewTemplateAPI())
+	desc.RegisterOmpGrpcTemplateServiceServer(grpcServer, api.NewTemplateAPI())
 
 	go func() {
 		log.Info().Msgf("GRPC Server is listening on: %s", grpcAddr)

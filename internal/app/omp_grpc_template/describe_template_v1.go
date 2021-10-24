@@ -1,4 +1,4 @@
-package omp_template_api
+package omp_grpc_template
 
 import (
 	"context"
@@ -7,14 +7,13 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	desc "github.com/ozonmp/omp-grpc-template/pkg/omp-template-api"
+	desc "github.com/ozonmp/omp-grpc-template/pkg/omp-grpc-template"
 )
 
 func (i *Implementation) DescribeTemplateV1(
 	ctx context.Context,
 	req *desc.DescribeTemplateV1Request,
 ) (*desc.DescribeTemplateV1Response, error) {
-
 	if err := req.Validate(); err != nil {
 		log.Error().Err(err).Msg("DescribeTemplateV1 - invalid argument")
 
@@ -23,8 +22,8 @@ func (i *Implementation) DescribeTemplateV1(
 
 	return &desc.DescribeTemplateV1Response{
 		Value: &desc.Template{
-			// Id:  template.ID,
-			// Foo: template.Foo,
+			Id:  req.GetId(),
+			Foo: 42,
 		},
 	}, nil
 }

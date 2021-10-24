@@ -3,7 +3,7 @@ name: image
 on:
   push:
     tags:
-       - '*'
+      - "*"
 
 jobs:
   deploy:
@@ -14,7 +14,7 @@ jobs:
       COMMIT_HASH: ${{ github.sha }}
     environment: default
 
-    steps:      
+    steps:
       - name: Set env version
         run: echo "IMAGE_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
@@ -45,4 +45,4 @@ jobs:
         with:
           push: true
           # tags: <org-name>/<repo-name>/<app-name>:${{ env.IMAGE_TAG }}
-          tags: ghcr.io/${{ github.repository_owner }}/omp-template-api/server:${{ env.IMAGE_TAG }}
+          tags: ghcr.io/${{ github.repository_owner }}/omp-grpc-template/server:${{ env.IMAGE_TAG }}
