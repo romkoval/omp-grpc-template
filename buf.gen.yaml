@@ -3,21 +3,25 @@ plugins:
   - name: go
     out: .
     opt:
+      - module=github.com/ozonmp/omp-template-api
   - name: go-grpc
     out: .
     opt:
+      - module=github.com/ozonmp/omp-template-api
   - name: grpc-gateway
     out: .
     opt:
       - generate_unbound_methods=true
       - logtostderr=true
+      - module=github.com/ozonmp/omp-template-api
   - name: validate
     out: .
     opt:
       - lang=go
+      - module=github.com/ozonmp/omp-template-api
   - name: openapiv2
     path: protoc-gen-openapiv2
-    out: .
+    out: swagger
     opt:
       - generate_unbound_methods=true
     strategy: directory

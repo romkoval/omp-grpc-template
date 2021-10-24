@@ -5,7 +5,7 @@ package ozonmp.omp_template_api.v1;
 import "google/api/annotations.proto";
 import "validate/validate.proto";
 
-option go_package = "pkg/omp-template-api;omp_template_api";
+option go_package = "github.com/ozonmp/omp-template-api/pkg/omp-template-api;omp_template_api";
 
 // OmpTemplateApiService - Service for working with templates
 service OmpTemplateApiService {
