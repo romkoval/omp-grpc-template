@@ -31,10 +31,18 @@ type Grpc struct {
 	Host              string `yaml:"host"`
 }
 
-// Rest - contains parameter rest json connection.
-type Rest struct {
-	Port int    `yaml:"port"`
-	Host string `yaml:"host"`
+// Gateway - contains parameters for grpc-gateway port
+type Gateway struct {
+	Port               int      `yaml:"port"`
+	Host               string   `yaml:"host"`
+	AllowedCORSOrigins []string `yaml:"allowedCorsOrigins"`
+}
+
+// Swagger - contains parameters for swagger port
+type Swagger struct {
+	Port     int    `yaml:"port"`
+	Host     string `yaml:"host"`
+	Filepath string `yaml:"filepath"`
 }
 
 // Project - contains all parameters project information.
@@ -50,7 +58,8 @@ type Project struct {
 type Config struct {
 	Project Project `yaml:"project"`
 	Grpc    Grpc    `yaml:"grpc"`
-	Rest    Rest    `yaml:"rest"`
+	Gateway Gateway `yaml:"gateway"`
+	Swagger Swagger `yaml:"swagger"`
 }
 
 // ReadConfigYML - read configurations from file and init instance Config.
