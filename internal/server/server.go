@@ -80,7 +80,6 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 			grpc_ctxtags.UnaryServerInterceptor(),
 			grpc_opentracing.UnaryServerInterceptor(),
 			grpcrecovery.UnaryServerInterceptor(),
-			validateInterceptor,
 		)),
 	)
 
