@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "api/omp_grpc_template/omp_grpc_template.proto",
+    "title": "api/sample-service/sample-service.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "OmpGrpcTemplateService"
+      "name": "SampleService"
     }
   ],
   "consumes": [
@@ -16,15 +16,14 @@
     "application/json"
   ],
   "paths": {
-    "/v1/templates": {
+    "/v1/sample": {
       "post": {
-        "summary": "DescribeTemplateV1 - Describe a template",
-        "operationId": "OmpGrpcTemplateService_DescribeTemplateV1",
+        "operationId": "SampleService_SampleMethodV1",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1DescribeTemplateV1Response"
+              "$ref": "#/definitions/v1SampleMethodV1Response"
             }
           },
           "default": {
@@ -40,12 +39,12 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1DescribeTemplateV1Request"
+              "$ref": "#/definitions/v1SampleMethodV1Request"
             }
           }
         ],
         "tags": [
-          "OmpGrpcTemplateService"
+          "SampleService"
         ]
       }
     }
@@ -81,7 +80,7 @@
         }
       }
     },
-    "v1DescribeTemplateV1Request": {
+    "v1SampleMethodV1Request": {
       "type": "object",
       "properties": {
         "id": {
@@ -90,7 +89,7 @@
         }
       }
     },
-    "v1DescribeTemplateV1Response": {
+    "v1SampleMethodV1Response": {
       "type": "object",
       "properties": {
         "value": {
@@ -105,9 +104,8 @@
           "type": "string",
           "format": "uint64"
         },
-        "foo": {
-          "type": "string",
-          "format": "uint64"
+        "name": {
+          "type": "string"
         }
       }
     }

@@ -21,9 +21,9 @@ import (
 	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 
-	api "github.com/ozonmp/omp-grpc-template/internal/app/omp_grpc_template"
+	api "github.com/ozonmp/omp-grpc-template/internal/app/sample-service"
 	"github.com/ozonmp/omp-grpc-template/internal/config"
-	desc "github.com/ozonmp/omp-grpc-template/pkg/omp-grpc-template"
+	desc "github.com/ozonmp/omp-grpc-template/pkg/sample-service"
 )
 
 type GrpcServer struct {
@@ -80,10 +80,11 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 			grpc_ctxtags.UnaryServerInterceptor(),
 			grpc_opentracing.UnaryServerInterceptor(),
 			grpcrecovery.UnaryServerInterceptor(),
+			validateInterceptor,
 		)),
 	)
 
-	desc.RegisterOmpGrpcTemplateServiceServer(grpcServer, api.NewOmpGrpcTemplateService())
+	desc.RegisterSampleServiceServer(grpcServer, api.NewSampleService())
 
 	go func() {
 		log.Info().Msgf("GRPC Server is listening on: %s", grpcAddr)

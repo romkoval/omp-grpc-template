@@ -1,4 +1,4 @@
-module github.com/ozonmp/omp-grpc-template/pkg/omp-grpc-template
+module github.com/ozonmp/omp-grpc-template/pkg/sample-service
 
 go 1.17
 

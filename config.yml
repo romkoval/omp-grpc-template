@@ -21,4 +21,4 @@ gateway:
 swagger:
   host: 0.0.0.0
   port: 7001
-  filepath: "swagger/api/omp_grpc_template/omp_grpc_template.swagger.json"
+  filepath: "swagger/api/sample-service/sample-service.swagger.json"
