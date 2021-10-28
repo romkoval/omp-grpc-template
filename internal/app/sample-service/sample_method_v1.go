@@ -1,4 +1,4 @@
-package omp_grpc_template
+package sample_service
 
 import (
 	"context"
