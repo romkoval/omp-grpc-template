@@ -1,0 +1,13 @@
+md, ok := metadata.FromIncomingContext(ctx)
+	log.Debug().
+		Interface("md", md).
+		Bool("ok", ok).
+		Msg("parsed metadata")
+
+curl -X 'POST' \
+  'http://0.0.0.0:7000/v1/sample' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "id": "43234"
+}' -H 'Grpc-Metadata-some_key: one' -H 'Grpc-Metadata-some_key: two'
